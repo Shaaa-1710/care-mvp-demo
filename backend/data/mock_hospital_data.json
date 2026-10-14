@@ -1,0 +1,155 @@
+{
+  "demo_mode": true,
+  "scenario_id": "CARE-ICU-DEMO-001",
+  "scenario_time": "2026-10-14T12:00:00+05:30",
+  "notice": "All people, timestamps, observations, and orders in this file are fictional training data. This is not for clinical use.",
+  "patient": {
+    "id": "DEMO-ICU-005",
+    "name": "Mr. Kannan (fictional)",
+    "age_years": 68,
+    "sex": "male",
+    "unit": "ICU",
+    "bed": "05",
+    "encounter_id": "ENC-DEMO-005"
+  },
+  "medication_orders": [
+    {
+      "id": "MO-HEPARIN-001",
+      "medication": "Heparin",
+      "medication_class": "anticoagulant",
+      "dose": "5,000 units",
+      "route": "Subcutaneous",
+      "frequency": "Every 8 hours (illustrative)",
+      "status": "active",
+      "ordered_at": "2026-10-14T08:00:00+05:30",
+      "last_updated": "2026-10-14T11:00:00+05:30",
+      "source": "Mock EMR",
+      "patient_id": "DEMO-ICU-005",
+      "encounter_id": "ENC-DEMO-005"
+    },
+    {
+      "id": "MO-FUROSEMIDE-002",
+      "medication": "Furosemide",
+      "medication_class": "diuretic",
+      "dose": "20 mg",
+      "route": "Oral",
+      "frequency": "Twice daily (illustrative)",
+      "status": "active",
+      "ordered_at": "2026-10-14T07:30:00+05:30",
+      "last_updated": "2026-10-14T10:50:00+05:30",
+      "source": "Mock EMR",
+      "patient_id": "DEMO-ICU-005",
+      "encounter_id": "ENC-DEMO-005"
+    }
+  ],
+  "laboratory_results": {
+    "platelet_trend": [
+      {
+        "test": "Platelets",
+        "value": 220000,
+        "unit": "/µL",
+        "collected_at": "2026-10-14T10:00:00+05:30",
+        "source": "Mock LIS",
+        "patient_id": "DEMO-ICU-005",
+        "encounter_id": "ENC-DEMO-005"
+      },
+      {
+        "test": "Platelets",
+        "value": 78000,
+        "unit": "/µL",
+        "collected_at": "2026-10-14T11:30:00+05:30",
+        "source": "Mock LIS",
+        "patient_id": "DEMO-ICU-005",
+        "encounter_id": "ENC-DEMO-005"
+      }
+    ],
+    "coagulation_panel": {
+      "test": "Coagulation panel (illustrative)",
+      "value_summary": "Last result is 6 hours old at the scenario time; confirm whether a newer result is available.",
+      "collected_at": "2026-10-14T06:00:00+05:30",
+      "source": "Mock LIS",
+      "patient_id": "DEMO-ICU-005",
+      "encounter_id": "ENC-DEMO-005"
+    }
+  },
+  "nursing_notes": [
+    {
+      "id": "NOTE-001",
+      "text": "Bleeding observed at IV site.",
+      "created_at": "2026-10-14T11:20:00+05:30",
+      "source": "Mock nursing documentation",
+      "patient_id": "DEMO-ICU-005",
+      "encounter_id": "ENC-DEMO-005"
+    }
+  ],
+  "vital_signs": {
+    "heart_rate_bpm": 118,
+    "systolic_bp_mmhg": 86,
+    "diastolic_bp_mmhg": 52,
+    "measured_at": "2026-10-14T11:57:00+05:30",
+    "source": "Mock bedside monitor",
+    "patient_id": "DEMO-ICU-005",
+    "encounter_id": "ENC-DEMO-005"
+  },
+  "sources": [
+    {
+      "source_key": "medication_order",
+      "display_name": "Medication order (EMR)",
+      "last_updated": "2026-10-14T11:00:00+05:30",
+      "available": true,
+      "stale_after_minutes": 120
+    },
+    {
+      "source_key": "platelets",
+      "display_name": "Platelet result (LIS)",
+      "last_updated": "2026-10-14T11:30:00+05:30",
+      "available": true,
+      "stale_after_minutes": 120
+    },
+    {
+      "source_key": "nursing_note",
+      "display_name": "Nursing note",
+      "last_updated": "2026-10-14T11:20:00+05:30",
+      "available": true,
+      "stale_after_minutes": 120
+    },
+    {
+      "source_key": "vital_signs",
+      "display_name": "Vital signs",
+      "last_updated": "2026-10-14T11:57:00+05:30",
+      "available": true,
+      "stale_after_minutes": 15
+    },
+    {
+      "source_key": "infusion_pump",
+      "display_name": "Infusion-pump telemetry",
+      "last_updated": null,
+      "available": false,
+      "stale_after_minutes": 10
+    },
+    {
+      "source_key": "coagulation_panel",
+      "display_name": "Coagulation laboratory result",
+      "last_updated": "2026-10-14T06:00:00+05:30",
+      "available": true,
+      "stale_after_minutes": 240
+    }
+  ],
+  "source_conflicts": [
+    {
+      "conflict_id": "CONFLICT-DEMO-001",
+      "is_training_example": true,
+      "subject": "Furosemide order",
+      "source_a": "Mock EMR",
+      "value_a": "active",
+      "source_b": "Mock medication reconciliation feed",
+      "value_b": "discontinued",
+      "observed_at": "2026-10-14T11:45:00+05:30",
+      "status": "conflict",
+      "message": "Two mock sources disagree about the order status. Do not silently select either value; request reconciliation.",
+      "patient_id": "DEMO-ICU-005",
+      "encounter_id": "ENC-DEMO-005"
+    }
+  ],
+  "scenario_clock_note": "Source ages shown in the dashboard are calculated against scenario_time, not the computer clock."
+}

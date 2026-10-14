@@ -1,0 +1,73 @@
+{
+  "rules_version": "0.1-demo",
+  "purpose": "Configurable demonstration rules for CARE. These are educational prototype heuristics, not clinically validated decision rules.",
+  "safety": {
+    "autonomous_medication_changes": false,
+    "requires_human_review": true,
+    "stale_data_means_normal": false,
+    "silently_resolve_conflicts": false
+  },
+  "rules": [
+    {
+      "id": "CARE-R001",
+      "name": "Platelet decline plus bleeding while anticoagulant order is active",
+      "type": "anticoagulant_context_combo",
+      "enabled": true,
+      "priority": "high",
+      "platelet_drop_percent_at_least": 50,
+      "note_keywords_any": ["bleeding", "oozing", "blood at"],
+      "medication_classes_any": ["anticoagulant"],
+      "active_statuses": ["active"],
+      "title": "Clinical context changed — clinician review required",
+      "message": "An active anticoagulant order coexists with a substantial platelet decline and a bleeding note. Review the evidence and current patient context.",
+      "action": "review_required",
+      "evidence_keys": ["platelet_trend", "nursing_notes", "medication_orders"]
+    },
+    {
+      "id": "CARE-R002",
+      "name": "Stale coagulation data",
+      "type": "source_staleness",
+      "enabled": true,
+      "priority": "medium",
+      "source_key": "coagulation_panel",
+      "stale_after_minutes": 240,
+      "title": "Latest coagulation result may be stale",
+      "message": "The latest coagulation result is older than the configured demo freshness window. The current context may be incomplete; obtain or confirm current information according to local workflow.",
+      "action": "verify_data"
+    },
+    {
+      "id": "CARE-R003",
+      "name": "Missing infusion-pump telemetry",
+      "type": "source_missing",
+      "enabled": true,
+      "priority": "medium",
+      "source_key": "infusion_pump",
+      "title": "Infusion-pump telemetry unavailable",
+      "message": "No current telemetry event was received from the configured demo pump source. Do not infer that the infusion is running or stopped.",
+      "action": "verify_source"
+    },
+    {
+      "id": "CARE-R004",
+      "name": "Vital-sign review threshold",
+      "type": "vital_threshold",
+      "enabled": true,
+      "priority": "high",
+      "systolic_bp_below_mmhg": 90,
+      "heart_rate_above_bpm": 110,
+      "logic": "any",
+      "title": "Vital signs require clinical review",
+      "message": "One or more configured vital-sign thresholds are crossed in this synthetic scenario. Verify the measurement and review in clinical context.",
+      "action": "review_required"
+    },
+    {
+      "id": "CARE-R005",
+      "name": "Conflicting source values",
+      "type": "source_conflict",
+      "enabled": true,
+      "priority": "medium",
+      "title": "Conflicting medication status across sources",
+      "message": "Mock sources report different medication-order statuses. Preserve both source values and request reconciliation; do not silently choose one.",
+      "action": "reconcile_sources"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: care-mvp-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    healthCheckPath: /api/health
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: FHIR_BASE_URL
+        value: https://hapi.fhir.org/baseR4
+      - key: FHIR_TIMEOUT_SECONDS
+        value: "8"
+      - key: CORS_ORIGINS
+        value: http://localhost:5173,http://127.0.0.1:5173
